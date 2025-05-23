@@ -1,0 +1,343 @@
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATA SURVEY CONTAINER</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 700px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #0056b3; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input[type="text"], input[type="tel"], input[type="number"], select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .checkbox-group { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 4px; background-color: #f9f9f9; }
+        .checkbox-group label.inline-label { font-weight: normal; display: inline-block; margin-left: 5px; }
+        .conditional-fields { display: none; margin-top: 10px; padding-left: 20px; border-left: 3px solid #0056b3; }
+        .form-section { border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 20px; border-radius: 5px; background-color: #fdfdfd; }
+        .container-block { border: 1px dashed #007bff; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #f0f8ff; position: relative; }
+        .container-block h3 { margin-top: 0; color: #0056b3; }
+        .remove-container-btn {
+            background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
+            position: absolute; top: 10px; right: 10px;
+        }
+        .remove-container-btn:hover { background-color: #c82333; }
+        #addContainerBtn, button[type="submit"] { background-color: #0056b3; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; margin-top:10px; }
+        #addContainerBtn { background-color: #28a745; margin-bottom: 20px; }
+        #addContainerBtn:hover { background-color: #218838; }
+        button[type="submit"]:hover { background-color: #004494; }
+        button[type="submit"]:disabled { background-color: #ccc; cursor: not-allowed; }
+        .message { padding: 10px; margin-top: 15px; border-radius: 4px; text-align: center; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DATA SURVEY CONTAINER</h1>
+        <p style="text-align: center; color: #555; margin-top: -10px; margin-bottom: 20px; font-style: italic;">
+            "Input data dengan benar untuk menghindari suatu masalah"
+        </p>
+        <form id="surveyForm">
+            <div class="form-section">
+                <h2>Informasi Umum</h2>
+                <div>
+                    <label for="vesselName">Vessel Name:</label>
+                    <input type="text" id="vesselName" name="vesselName" required>
+                </div>
+                <div>
+                    <label for="bookingNumber">Booking Number:</label>
+                    <input type="text" id="bookingNumber" name="bookingNumber" required>
+                </div>
+                <div>
+                    <label for="shipperName">Nama Shipper:</label>
+                    <input type="text" id="shipperName" name="shipperName" required>
+                </div>
+                <div>
+                    <label for="whatsappNumber">Nomor WhatsApp:</label>
+                    <input type="tel" id="whatsappNumber" name="whatsappNumber" placeholder="Contoh: 081234567890" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Detail Kontainer</h2>
+                <div id="containersWrapper">
+                    <!-- Blok kontainer akan ditambahkan di sini oleh JavaScript -->
+                </div>
+                <button type="button" id="addContainerBtn">Tambah Kontainer</button>
+            </div>
+
+            <button type="submit" id="submitButton">Kirim Data</button>
+        </form>
+        <div id="formMessage" class="message" style="display:none;"></div>
+    </div>
+
+    <template id="containerTemplate">
+        <div class="container-block">
+            <button type="button" class="remove-container-btn" title="Hapus Kontainer Ini">Hapus</button>
+            <h3>Kontainer</h3>
+            <div>
+                <label for="containerNumber_idx_">Container Number:</label>
+                <input type="text" name="containerNumber" required pattern="[A-Z]{4}[0-9]{7}" title="Format: 4 huruf kapital diikuti 7 angka (contoh: ABCD1234567)">
+            </div>
+            <div>
+                <label for="sizeType_idx_">Size/Type:</label>
+                <select name="sizeType" required>
+                    <option value="">-- Pilih Size/Type --</option>
+                    <option value="20GP">20' General Purpose (GP)</option>
+                    <option value="40GP">40' General Purpose (GP)</option>
+                    <option value="40HC">40' High Cube (HC)</option>
+                    <option value="20RF">20' Reefer (RF)</option>
+                    <option value="40RF">40' Reefer (RF)</option>
+                    <option value="40RH">40' High Cube Reefer (RH)</option>
+                    <option value="20OT">20' Open Top (OT)</option>
+                    <option value="40OT">40' Open Top (OT)</option>
+                    <option value="20FR">20' Flat Rack (FR)</option>
+                    <option value="40FR">40' Flat Rack (FR)</option>
+                    <option value="ISO Tank">ISO Tank</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" name="isDG" class="isDG-checkbox">
+                <label class="inline-label">Apakah Barang Berbahaya (DG)?</label>
+                <div class="conditional-fields dgFields">
+                    <div>
+                        <label>IMO Class:</label>
+                        <input type="text" name="imo">
+                    </div>
+                    <div>
+                        <label>UN Number (UNNO):</label>
+                        <input type="text" name="unno">
+                    </div>
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" name="isReefer" class="isReefer-checkbox">
+                <label class="inline-label">Apakah Kontainer Reefer?</label>
+                <div class="conditional-fields reeferFields">
+                    <div>
+                        <label>Set Temperature (°C):</label>
+                        <input type="text" name="setTemp" placeholder="Contoh: -18 atau +5">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylYnNwB-9zE6A4ClQMstpFvpUPvNDZ1rl9mwBxge1DP_o9Qz8Cg5Kd5N739NR1t12MUw/exec"; // <<< GANTI DENGAN URL WEB APP ANDA
+
+        const surveyForm = document.getElementById('surveyForm');
+        const submitButton = document.getElementById('submitButton');
+        const formMessage = document.getElementById('formMessage');
+        const containersWrapper = document.getElementById('containersWrapper');
+        const addContainerBtn = document.getElementById('addContainerBtn');
+        const containerTemplate = document.getElementById('containerTemplate');
+        let containerCounter = 0;
+
+        function addContainer() {
+            containerCounter++;
+            const templateContent = containerTemplate.content.cloneNode(true);
+            const newContainerBlock = templateContent.querySelector('.container-block');
+
+            // Update ID dan for atribut untuk keunikan jika diperlukan (saat ini tidak krusial karena name yang dipakai untuk form data)
+            // Namun baik untuk aksesibilitas. Kita bisa tambahkan index ke ID
+            newContainerBlock.querySelectorAll('label[for]').forEach(label => {
+                const oldFor = label.getAttribute('for');
+                if (oldFor && oldFor.endsWith('_idx_')) {
+                    label.setAttribute('for', oldFor.replace('_idx_', `_${containerCounter}`));
+                }
+            });
+            newContainerBlock.querySelectorAll('input[id], select[id]').forEach(input => {
+                const oldId = input.getAttribute('id');
+                if (oldId && oldId.endsWith('_idx_')) {
+                    input.setAttribute('id', oldId.replace('_idx_', `_${containerCounter}`));
+                }
+            });
+            
+            newContainerBlock.querySelector('h3').textContent = `Kontainer ${containersWrapper.children.length + 1}`;
+
+
+            // Event listener untuk tombol hapus
+            const removeBtn = newContainerBlock.querySelector('.remove-container-btn');
+            removeBtn.addEventListener('click', function() {
+                newContainerBlock.remove();
+                updateContainerHeadings();
+                // Minimal harus ada 1 kontainer, jadi sembunyikan tombol hapus jika hanya 1
+                if (containersWrapper.children.length === 1) {
+                    containersWrapper.querySelector('.remove-container-btn').style.display = 'none';
+                }
+            });
+            
+            // Sembunyikan tombol hapus jika ini adalah kontainer pertama
+            if (containersWrapper.children.length === 0) {
+                removeBtn.style.display = 'none';
+            }
+
+
+            // Event listeners untuk checkbox kondisional
+            const dgCheckbox = newContainerBlock.querySelector('.isDG-checkbox');
+            const dgFields = newContainerBlock.querySelector('.dgFields');
+            const imoInput = dgFields.querySelector('input[name="imo"]');
+            const unnoInput = dgFields.querySelector('input[name="unno"]');
+
+            dgCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    dgFields.style.display = 'block';
+                    imoInput.required = true;
+                    unnoInput.required = true;
+                } else {
+                    dgFields.style.display = 'none';
+                    imoInput.required = false;
+                    unnoInput.required = false;
+                    imoInput.value = '';
+                    unnoInput.value = '';
+                }
+            });
+
+            const reeferCheckbox = newContainerBlock.querySelector('.isReefer-checkbox');
+            const reeferFields = newContainerBlock.querySelector('.reeferFields');
+            const setTempInput = reeferFields.querySelector('input[name="setTemp"]');
+
+            reeferCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    reeferFields.style.display = 'block';
+                    setTempInput.required = true;
+                } else {
+                    reeferFields.style.display = 'none';
+                    setTempInput.required = false;
+                    setTempInput.value = '';
+                }
+            });
+
+            containersWrapper.appendChild(newContainerBlock);
+             // Tampilkan kembali tombol hapus untuk kontainer sebelumnya jika ada lebih dari 1
+            if (containersWrapper.children.length > 1) {
+                const allRemoveButtons = containersWrapper.querySelectorAll('.remove-container-btn');
+                allRemoveButtons.forEach(btn => btn.style.display = 'inline-block');
+            }
+        }
+        
+        function updateContainerHeadings() {
+            const containerBlocks = containersWrapper.querySelectorAll('.container-block');
+            containerBlocks.forEach((block, index) => {
+                block.querySelector('h3').textContent = `Kontainer ${index + 1}`;
+            });
+        }
+
+
+        addContainerBtn.addEventListener('click', addContainer);
+
+        // Tambahkan kontainer pertama secara otomatis saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            addContainer();
+        });
+
+
+        surveyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Mengirim...';
+            formMessage.style.display = 'none';
+            formMessage.className = 'message';
+
+            const formData = new FormData(surveyForm);
+            const data = {};
+
+            // Ambil data umum
+            data.vesselName = formData.get('vesselName');
+            data.bookingNumber = formData.get('bookingNumber');
+            data.shipperName = formData.get('shipperName');
+            data.whatsappNumber = formData.get('whatsappNumber');
+
+            // Kumpulkan data kontainer
+            const containers = [];
+            const containerBlocks = containersWrapper.querySelectorAll('.container-block');
+            
+            if (containerBlocks.length === 0) {
+                formMessage.textContent = "Harap tambahkan minimal satu kontainer.";
+                formMessage.className = 'message error';
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Data';
+                return; // Hentikan submit jika tidak ada kontainer
+            }
+
+            let formIsValid = true; // Flag untuk validasi sisi klien
+            containerBlocks.forEach(block => {
+                // Validasi sederhana sisi client untuk field required di dalam container block
+                const containerNumberInput = block.querySelector('input[name="containerNumber"]');
+                const sizeTypeSelect = block.querySelector('select[name="sizeType"]');
+                if (!containerNumberInput.value.trim() || !sizeTypeSelect.value) {
+                    formIsValid = false;
+                }
+                // Anda bisa menambahkan validasi lebih lanjut di sini untuk IMO/UNNO/SetTemp jika checkboxnya dicentang
+
+                const containerData = {
+                    containerNumber: containerNumberInput.value,
+                    sizeType: sizeTypeSelect.value,
+                    isDG: block.querySelector('input[name="isDG"]').checked,
+                    imo: block.querySelector('input[name="imo"]').value,
+                    unno: block.querySelector('input[name="unno"]').value,
+                    isReefer: block.querySelector('input[name="isReefer"]').checked,
+                    setTemp: block.querySelector('input[name="setTemp"]').value,
+                };
+                // Hanya sertakan IMO/UNNO jika DG dicentang
+                if (!containerData.isDG) {
+                    containerData.imo = '';
+                    containerData.unno = '';
+                }
+                // Hanya sertakan Set Temp jika Reefer dicentang
+                if (!containerData.isReefer) {
+                    containerData.setTemp = '';
+                }
+                containers.push(containerData);
+            });
+
+            if (!formIsValid) {
+                formMessage.textContent = "Harap lengkapi semua field yang wajib diisi pada setiap kontainer.";
+                formMessage.className = 'message error';
+                formMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Data';
+                return;
+            }
+
+
+            data.containersData = JSON.stringify(containers); // Kirim array kontainer sebagai string JSON
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'cors',
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(res => {
+                if (res.result === "success") {
+                    formMessage.textContent = res.message || "Data berhasil dikirim!";
+                    formMessage.className = 'message success';
+                    surveyForm.reset();
+                    // Hapus semua blok kontainer dan tambahkan satu yang baru
+                    containersWrapper.innerHTML = '';
+                    containerCounter = 0; // Reset counter
+                    addContainer(); // Tambahkan blok kontainer awal
+                } else {
+                    formMessage.textContent = res.message || "Terjadi kesalahan saat mengirim data.";
+                    formMessage.className = 'message error';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                formMessage.textContent = 'Terjadi kesalahan koneksi: ' + error.message;
+                formMessage.className = 'message error';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Data';
+                formMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
