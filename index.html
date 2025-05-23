@@ -7,53 +7,55 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f4f4; color: #333; }
         .container { max-width: 700px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #0056b3; }
+        h1 { text-align: center; color: #0056b3; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #555; margin-top: -5px; margin-bottom: 25px; font-style: italic; font-size:0.9em; }
         label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input[type="text"], input[type="tel"], input[type="number"], select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        input[type="text"], input[type="tel"], input[type="number"], select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 1em; }
         .checkbox-group { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 4px; background-color: #f9f9f9; }
-        .checkbox-group label.inline-label { font-weight: normal; display: inline-block; margin-left: 5px; }
+        .checkbox-group input[type="checkbox"] { margin-right: 5px; vertical-align: middle;}
+        .checkbox-group label.inline-label { font-weight: normal; display: inline-block; margin-left: 0px; vertical-align: middle;}
         .conditional-fields { display: none; margin-top: 10px; padding-left: 20px; border-left: 3px solid #0056b3; }
         .form-section { border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 20px; border-radius: 5px; background-color: #fdfdfd; }
+        .form-section h2 { margin-top:0; color: #0056b3; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom:15px;}
         .container-block { border: 1px dashed #007bff; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #f0f8ff; position: relative; }
-        .container-block h3 { margin-top: 0; color: #0056b3; }
+        .container-block h3 { margin-top: 0; color: #0056b3; font-size:1.1em; }
         .remove-container-btn {
             background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
             position: absolute; top: 10px; right: 10px;
         }
         .remove-container-btn:hover { background-color: #c82333; }
-        #addContainerBtn, button[type="submit"] { background-color: #0056b3; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; margin-top:10px; }
+        #addContainerBtn, button[type="submit"] { background-color: #0056b3; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; margin-top:10px; width:auto; }
         #addContainerBtn { background-color: #28a745; margin-bottom: 20px; }
         #addContainerBtn:hover { background-color: #218838; }
         button[type="submit"]:hover { background-color: #004494; }
         button[type="submit"]:disabled { background-color: #ccc; cursor: not-allowed; }
-        .message { padding: 10px; margin-top: 15px; border-radius: 4px; text-align: center; }
+        .message { padding: 10px; margin-top: 15px; border-radius: 4px; text-align: center; font-weight: bold; }
         .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .required-asterisk { color: red; margin-left: 2px;}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>DATA SURVEY CONTAINER</h1>
-        <p style="text-align: center; color: #555; margin-top: -10px; margin-bottom: 20px; font-style: italic;">
-            "Input data dengan benar untuk menghindari suatu masalah"
-        </p>
-        <form id="surveyForm">
+        <p class="subtitle">"Input data dengan benar untuk menghindari suatu masalah"</p>
+        <form id="surveyForm" novalidate>
             <div class="form-section">
                 <h2>Informasi Umum</h2>
                 <div>
-                    <label for="vesselName">Vessel Name:</label>
+                    <label for="vesselName">Vessel Name:<span class="required-asterisk">*</span></label>
                     <input type="text" id="vesselName" name="vesselName" required>
                 </div>
                 <div>
-                    <label for="bookingNumber">Booking Number:</label>
+                    <label for="bookingNumber">Booking Number:<span class="required-asterisk">*</span></label>
                     <input type="text" id="bookingNumber" name="bookingNumber" required>
                 </div>
                 <div>
-                    <label for="shipperName">Nama Shipper:</label>
+                    <label for="shipperName">Nama Shipper:<span class="required-asterisk">*</span></label>
                     <input type="text" id="shipperName" name="shipperName" required>
                 </div>
                 <div>
-                    <label for="whatsappNumber">Nomor WhatsApp:</label>
+                    <label for="whatsappNumber">Nomor WhatsApp:<span class="required-asterisk">*</span></label>
                     <input type="tel" id="whatsappNumber" name="whatsappNumber" placeholder="Contoh: 081234567890" required>
                 </div>
             </div>
@@ -76,11 +78,11 @@
             <button type="button" class="remove-container-btn" title="Hapus Kontainer Ini">Hapus</button>
             <h3>Kontainer</h3>
             <div>
-                <label for="containerNumber_idx_">Container Number:</label>
-                <input type="text" name="containerNumber" required pattern="[A-Z]{4}[0-9]{7}" title="Format: 4 huruf kapital diikuti 7 angka (contoh: ABCD1234567)">
+                <label>Container Number:<span class="required-asterisk">*</span></label>
+                <input type="text" name="containerNumber" required pattern="[A-Za-z]{4}[0-9]{7}" title="Format: 4 huruf diikuti 7 angka (contoh: ABCD1234567)">
             </div>
             <div>
-                <label for="sizeType_idx_">Size/Type:</label>
+                <label>Size/Type:<span class="required-asterisk">*</span></label>
                 <select name="sizeType" required>
                     <option value="">-- Pilih Size/Type --</option>
                     <option value="20GP">20' General Purpose (GP)</option>
@@ -93,7 +95,7 @@
                     <option value="40OT">40' Open Top (OT)</option>
                     <option value="20FR">20' Flat Rack (FR)</option>
                     <option value="40FR">40' Flat Rack (FR)</option>
-                    <option value="ISO Tank">ISO Tank</option>
+                    <option value="ISOTANK">ISO Tank</option>
                     <option value="Lainnya">Lainnya</option>
                 </select>
             </div>
@@ -102,11 +104,11 @@
                 <label class="inline-label">Apakah Barang Berbahaya (DG)?</label>
                 <div class="conditional-fields dgFields">
                     <div>
-                        <label>IMO Class:</label>
+                        <label>IMO Class:<span class="required-asterisk">*</span></label>
                         <input type="text" name="imo">
                     </div>
                     <div>
-                        <label>UN Number (UNNO):</label>
+                        <label>UN Number (UNNO):<span class="required-asterisk">*</span></label>
                         <input type="text" name="unno">
                     </div>
                 </div>
@@ -116,7 +118,7 @@
                 <label class="inline-label">Apakah Kontainer Reefer?</label>
                 <div class="conditional-fields reeferFields">
                     <div>
-                        <label>Set Temperature (°C):</label>
+                        <label>Set Temperature (°C):<span class="required-asterisk">*</span></label>
                         <input type="text" name="setTemp" placeholder="Contoh: -18 atau +5">
                     </div>
                 </div>
@@ -125,7 +127,7 @@
     </template>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRIZf-MR4FkDzgQQ2R2BilgfB8Qqe0C60_qVyVfwpNN0xkrd9Pf7v5lni6j2y3OA4OEA/exec"; // <<< GANTI DENGAN URL WEB APP ANDA
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyZk2QiVE3WsfOEM2XnYLUXR-4gr1m-fA7zSWMk_5GaOklRdWk0lsr_hyhItfVeGQlNA/exec"; // <<< GANTI DENGAN URL WEB APP ANDA
 
         const surveyForm = document.getElementById('surveyForm');
         const submitButton = document.getElementById('submitButton');
@@ -133,47 +135,45 @@
         const containersWrapper = document.getElementById('containersWrapper');
         const addContainerBtn = document.getElementById('addContainerBtn');
         const containerTemplate = document.getElementById('containerTemplate');
-        let containerCounter = 0;
+        let containerIdCounter = 0; // Untuk ID unik pada elemen form dinamis
 
-        function addContainer() {
-            containerCounter++;
+        function addContainer(isFirstContainer = false) {
+            containerIdCounter++;
             const templateContent = containerTemplate.content.cloneNode(true);
             const newContainerBlock = templateContent.querySelector('.container-block');
 
-            // Update ID dan for atribut untuk keunikan jika diperlukan (saat ini tidak krusial karena name yang dipakai untuk form data)
-            // Namun baik untuk aksesibilitas. Kita bisa tambahkan index ke ID
-            newContainerBlock.querySelectorAll('label[for]').forEach(label => {
-                const oldFor = label.getAttribute('for');
-                if (oldFor && oldFor.endsWith('_idx_')) {
-                    label.setAttribute('for', oldFor.replace('_idx_', `_${containerCounter}`));
+            // Update ID dan 'for' attributes untuk keunikan dan aksesibilitas
+            newContainerBlock.querySelectorAll('label[for], input[id], select[id]').forEach(el => {
+                if (el.hasAttribute('for')) {
+                    el.setAttribute('for', el.getAttribute('for') + containerIdCounter);
+                }
+                if (el.hasAttribute('id')) {
+                    el.setAttribute('id', el.getAttribute('id') + containerIdCounter);
                 }
             });
-            newContainerBlock.querySelectorAll('input[id], select[id]').forEach(input => {
-                const oldId = input.getAttribute('id');
-                if (oldId && oldId.endsWith('_idx_')) {
-                    input.setAttribute('id', oldId.replace('_idx_', `_${containerCounter}`));
+             // Menyesuaikan nama elemen form di dalam template agar unik jika diperlukan oleh logika tertentu
+            // Namun untuk FormData, 'name' yang sama per blok sudah cukup.
+            // Untuk label yang tidak menggunakan 'for', pastikan inputnya punya ID unik jika labelnya clickable
+            newContainerBlock.querySelectorAll('input[name], select[name]').forEach(input => {
+                const label = input.previousElementSibling;
+                if (label && label.tagName === 'LABEL' && !label.hasAttribute('for')) {
+                    const uniqueId = input.name + '_' + containerIdCounter;
+                    input.id = uniqueId;
+                    label.setAttribute('for', uniqueId);
                 }
             });
-            
+
+
             newContainerBlock.querySelector('h3').textContent = `Kontainer ${containersWrapper.children.length + 1}`;
 
-
-            // Event listener untuk tombol hapus
             const removeBtn = newContainerBlock.querySelector('.remove-container-btn');
+            if (isFirstContainer) {
+                removeBtn.style.display = 'none'; // Sembunyikan tombol hapus untuk kontainer pertama
+            }
             removeBtn.addEventListener('click', function() {
                 newContainerBlock.remove();
-                updateContainerHeadings();
-                // Minimal harus ada 1 kontainer, jadi sembunyikan tombol hapus jika hanya 1
-                if (containersWrapper.children.length === 1) {
-                    containersWrapper.querySelector('.remove-container-btn').style.display = 'none';
-                }
+                updateContainerHeadingsAndRemoveButtons();
             });
-            
-            // Sembunyikan tombol hapus jika ini adalah kontainer pertama
-            if (containersWrapper.children.length === 0) {
-                removeBtn.style.display = 'none';
-            }
-
 
             // Event listeners untuk checkbox kondisional
             const dgCheckbox = newContainerBlock.querySelector('.isDG-checkbox');
@@ -211,92 +211,68 @@
             });
 
             containersWrapper.appendChild(newContainerBlock);
-             // Tampilkan kembali tombol hapus untuk kontainer sebelumnya jika ada lebih dari 1
-            if (containersWrapper.children.length > 1) {
-                const allRemoveButtons = containersWrapper.querySelectorAll('.remove-container-btn');
-                allRemoveButtons.forEach(btn => btn.style.display = 'inline-block');
-            }
+            updateContainerHeadingsAndRemoveButtons(); // Pastikan tombol hapus diatur dengan benar
         }
         
-        function updateContainerHeadings() {
+        function updateContainerHeadingsAndRemoveButtons() {
             const containerBlocks = containersWrapper.querySelectorAll('.container-block');
             containerBlocks.forEach((block, index) => {
                 block.querySelector('h3').textContent = `Kontainer ${index + 1}`;
+                const removeBtn = block.querySelector('.remove-container-btn');
+                if (containerBlocks.length <= 1) {
+                    removeBtn.style.display = 'none';
+                } else {
+                    removeBtn.style.display = 'inline-block';
+                }
             });
         }
 
+        addContainerBtn.addEventListener('click', () => addContainer(false));
 
-        addContainerBtn.addEventListener('click', addContainer);
-
-        // Tambahkan kontainer pertama secara otomatis saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
-            addContainer();
+            addContainer(true); // Tambahkan kontainer pertama
         });
-
 
         surveyForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            submitButton.disabled = true;
-            submitButton.textContent = 'Mengirim...';
             formMessage.style.display = 'none';
             formMessage.className = 'message';
 
-            const formData = new FormData(surveyForm);
-            const data = {};
+            // Validasi sisi klien sederhana
+            let isValid = true;
+            surveyForm.querySelectorAll('input[required], select[required]').forEach(input => {
+                if (!input.value.trim() && input.offsetWidth > 0 && input.offsetHeight > 0) { // Cek apakah input terlihat
+                    isValid = false;
+                    input.style.borderColor = 'red'; // Sorot field yang kosong
+                } else {
+                    input.style.borderColor = '#ddd'; // Kembalikan ke normal jika sudah diisi
+                }
+            });
+
+            if (!isValid) {
+                formMessage.textContent = "Harap lengkapi semua field yang ditandai wajib (*).";
+                formMessage.className = 'message error';
+                formMessage.style.display = 'block';
+                return;
+            }
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Mengirim...';
+
+            const formData = new FormData(); // Kita akan membangun FormData secara manual
 
             // Ambil data umum
-            data.vesselName = formData.get('vesselName');
-            data.bookingNumber = formData.get('bookingNumber');
-            data.shipperName = formData.get('shipperName');
-            data.whatsappNumber = formData.get('whatsappNumber');
+            formData.append('vesselName', document.getElementById('vesselName').value);
+            formData.append('bookingNumber', document.getElementById('bookingNumber').value);
+            formData.append('shipperName', document.getElementById('shipperName').value);
+            formData.append('whatsappNumber', document.getElementById('whatsappNumber').value);
 
             // Kumpulkan data kontainer
             const containers = [];
             const containerBlocks = containersWrapper.querySelectorAll('.container-block');
             
-            if (containerBlocks.length === 0) {
+            if (containerBlocks.length === 0) { // Seharusnya tidak terjadi karena minimal 1 kontainer
                 formMessage.textContent = "Harap tambahkan minimal satu kontainer.";
-                formMessage.className = 'message error';
-                formMessage.style.display = 'block';
-                submitButton.disabled = false;
-                submitButton.textContent = 'Kirim Data';
-                return; // Hentikan submit jika tidak ada kontainer
-            }
-
-            let formIsValid = true; // Flag untuk validasi sisi klien
-            containerBlocks.forEach(block => {
-                // Validasi sederhana sisi client untuk field required di dalam container block
-                const containerNumberInput = block.querySelector('input[name="containerNumber"]');
-                const sizeTypeSelect = block.querySelector('select[name="sizeType"]');
-                if (!containerNumberInput.value.trim() || !sizeTypeSelect.value) {
-                    formIsValid = false;
-                }
-                // Anda bisa menambahkan validasi lebih lanjut di sini untuk IMO/UNNO/SetTemp jika checkboxnya dicentang
-
-                const containerData = {
-                    containerNumber: containerNumberInput.value,
-                    sizeType: sizeTypeSelect.value,
-                    isDG: block.querySelector('input[name="isDG"]').checked,
-                    imo: block.querySelector('input[name="imo"]').value,
-                    unno: block.querySelector('input[name="unno"]').value,
-                    isReefer: block.querySelector('input[name="isReefer"]').checked,
-                    setTemp: block.querySelector('input[name="setTemp"]').value,
-                };
-                // Hanya sertakan IMO/UNNO jika DG dicentang
-                if (!containerData.isDG) {
-                    containerData.imo = '';
-                    containerData.unno = '';
-                }
-                // Hanya sertakan Set Temp jika Reefer dicentang
-                if (!containerData.isReefer) {
-                    containerData.setTemp = '';
-                }
-                containers.push(containerData);
-            });
-
-            if (!formIsValid) {
-                formMessage.textContent = "Harap lengkapi semua field yang wajib diisi pada setiap kontainer.";
                 formMessage.className = 'message error';
                 formMessage.style.display = 'block';
                 submitButton.disabled = false;
@@ -304,32 +280,63 @@
                 return;
             }
 
+            containerBlocks.forEach(block => {
+                const containerData = {
+                    containerNumber: block.querySelector('input[name="containerNumber"]').value,
+                    sizeType: block.querySelector('select[name="sizeType"]').value,
+                    isDG: block.querySelector('input[name="isDG"]').checked, // boolean
+                    imo: block.querySelector('input[name="imo"]').value,
+                    unno: block.querySelector('input[name="unno"]').value,
+                    isReefer: block.querySelector('input[name="isReefer"]').checked, // boolean
+                    setTemp: block.querySelector('input[name="setTemp"]').value,
+                };
+                // Kosongkan IMO/UNNO jika DG tidak dicentang
+                if (!containerData.isDG) {
+                    containerData.imo = '';
+                    containerData.unno = '';
+                }
+                // Kosongkan Set Temp jika Reefer tidak dicentang
+                if (!containerData.isReefer) {
+                    containerData.setTemp = '';
+                }
+                containers.push(containerData);
+            });
 
-            data.containersData = JSON.stringify(containers); // Kirim array kontainer sebagai string JSON
+            formData.append('containersData', JSON.stringify(containers));
 
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'cors',
-                body: new URLSearchParams(data)
+                body: formData // Menggunakan objek FormData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    // Jika respons tidak OK, coba baca sebagai JSON untuk pesan error dari server
+                    return response.json().then(errData => {
+                        throw new Error(errData.message || `Server error: ${response.status}`);
+                    }).catch(() => {
+                        // Jika gagal parse JSON error, lempar error umum
+                        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+                    });
+                }
+                return response.json();
+            })
             .then(res => {
+                console.log("Respon dari server:", res);
                 if (res.result === "success") {
                     formMessage.textContent = res.message || "Data berhasil dikirim!";
                     formMessage.className = 'message success';
                     surveyForm.reset();
-                    // Hapus semua blok kontainer dan tambahkan satu yang baru
                     containersWrapper.innerHTML = '';
-                    containerCounter = 0; // Reset counter
-                    addContainer(); // Tambahkan blok kontainer awal
+                    containerIdCounter = 0;
+                    addContainer(true); // Tambahkan blok kontainer awal kembali
                 } else {
                     formMessage.textContent = res.message || "Terjadi kesalahan saat mengirim data.";
                     formMessage.className = 'message error';
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                formMessage.textContent = 'Terjadi kesalahan koneksi: ' + error.message;
+                console.error('Error saat submit:', error);
+                formMessage.textContent = 'Terjadi kesalahan: ' + error.message;
                 formMessage.className = 'message error';
             })
             .finally(() => {
